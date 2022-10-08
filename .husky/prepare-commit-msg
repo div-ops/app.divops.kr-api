@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+FILE=$1
+MESSAGE=$(cat $FILE)
+
+echo "$MESSAGE [skip vercel] " >$FILE

@@ -1,0 +1,4 @@
+[submodule "shared"]
+	path = shared
+	url = git@github.com:div-ops/divops-frontend-shared.git
+	branch = main

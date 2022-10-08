@@ -1,0 +1,52 @@
+name: deploy-and-clean
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy:
+    if: contains(github.event.head_commit.message, 'skip vercel')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: true
+
+      - name: "[convert to single project] install lock file and add workspaces in package.json"
+        run: |
+          ./.scripts/lock-install.sh
+
+      - name: "commit to deploy"
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          ORIGIN_COMMIT="${{github.event.head_commit.message}}"
+          COMMIT=$(node -p "\"$ORIGIN_COMMIT\".replace(/\[skip vercel\]/g, '')")
+          git -c core.hookspath=/dev/null commit -m "$COMMIT"
+          git push origin HEAD
+  clean-file:
+    if: (!contains(github.event.head_commit.message, 'skip vercel'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: true
+
+      - name: "[revert to mono project] remove lock file and remove workspaces in package.json"
+        run: |
+          ./.scripts/lock-remove.sh
+
+      - name: "clean up code"
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          ORIGIN_COMMIT="${{github.event.head_commit.message}}"
+          git commit -m "$ORIGIN_COMMIT [skip vercel] [skip ci]"
+          git push origin HEAD
