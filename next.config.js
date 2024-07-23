@@ -4,7 +4,6 @@ module.exports = (phase, { defaultConfig }) => {
     // ...defaultConfig,
     reactStrictMode: true,
     swcMinify: true,
-    basePath: "/api",
   };
 
   return nextConfig;
