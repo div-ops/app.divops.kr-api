@@ -33,8 +33,13 @@ const testHTML = `
         body: formData,
       });
 
-      const result = await response.json();
-      alert(result.message);
+      try {
+        const result = await response.json();
+        alert(result.message);
+      } catch {
+        const result = await response.text();
+        alert(result); 
+      }
     });
   </script>
 </body>
