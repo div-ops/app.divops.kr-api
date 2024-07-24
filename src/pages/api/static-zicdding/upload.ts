@@ -131,7 +131,7 @@ export default function handler(
         );
 
         res.status(200).json({
-          message: "File uploaded and committed successfully",
+          message: `https://zicdding.github.io/fe-static-cdn/${filepath}`,
           result,
           originResult,
         });
