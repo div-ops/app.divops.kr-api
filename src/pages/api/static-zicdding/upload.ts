@@ -12,7 +12,7 @@ export const config = {
   },
 };
 
-const uploadDir = path.join(process.cwd(), "uploads");
+const uploadDir = `/tmp/uploads`;
 
 // Ensure upload directory exists
 if (!fs.existsSync(uploadDir)) {
