@@ -142,7 +142,7 @@ export default function handler(
       }
     });
   } else {
-    res.status(405).json({ error: "Method not allowed" });
+    res.status(405).json({ error: `Method not allowed(${req.method})` });
   }
 }
 
