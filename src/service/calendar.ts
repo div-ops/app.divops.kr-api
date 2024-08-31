@@ -26,8 +26,8 @@ export const CalendarService = {
       calendarId,
       timeMin: from
         ? from.toISOString()
-        : subDays(new Date(), 30).toISOString(),
-      timeMax: to ? to.toISOString() : addDays(new Date(), 30).toISOString(),
+        : subDays(new Date(), 40).toISOString(),
+      timeMax: to ? to.toISOString() : addDays(new Date(), 40).toISOString(),
       maxResults: pageSize,
       singleEvents: true,
     });
@@ -63,6 +63,12 @@ export const CalendarService = {
       });
 
     data.sort((a, b) => {
+      if (a.startDate === b.startDate) {
+        return (
+          new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
+        );
+      }
+
       return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
     });
 

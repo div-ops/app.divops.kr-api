@@ -32,7 +32,7 @@ export default async function handler(
     return res.status(200).json({
       calendarEvents: calendarEvents.map((x) => ({
         ...x,
-        name: x.name.split("/")[0],
+        name: x.name.split("/")[0].trim(),
       })),
     });
   } catch (error) {
