@@ -1,5 +1,5 @@
 import * as calendar from "@googleapis/calendar";
-import { format, subDays, addDays, toDate } from "date-fns";
+import { format, subDays, addDays } from "date-fns";
 
 const auth = new calendar.auth.GoogleAuth({
   credentials: {
