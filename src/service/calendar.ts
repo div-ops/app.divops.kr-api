@@ -35,8 +35,13 @@ export const CalendarService = {
     const data = (res.data?.items ?? [])
       .filter((x) => x.status !== "cancelled")
       .map((x) => {
-        const startDate = toDate(x?.start?.dateTime!);
-        const endDate = toDate(x?.end?.dateTime!);
+        const startDate = new Date(x?.start?.dateTime!).toLocaleString(
+          "en-US",
+          { timeZone: "Asia/Seoul" }
+        );
+        const endDate = new Date(x?.end?.dateTime!).toLocaleString("en-US", {
+          timeZone: "Asia/Seoul",
+        });
 
         return {
           name: x.summary || "No title",
