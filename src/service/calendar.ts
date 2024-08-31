@@ -49,6 +49,16 @@ export const CalendarService = {
           endDate: format(endDate, "yyyy-MM-dd"),
           startTime: format(startDate, "HH:mm"),
           endTime: format(endDate, "HH:mm"),
+          minutes: Math.floor(
+            (new Date(x?.end?.dateTime!).getTime() -
+              new Date(x?.start?.dateTime!).getTime()) /
+              60000
+          ),
+          hours:
+            (new Date(x?.end?.dateTime!).getTime() -
+              new Date(x?.start?.dateTime!).getTime()) /
+            60000 /
+            60,
         };
       });
 
