@@ -29,6 +29,12 @@ export default async function handler(
       pageSize,
     });
 
+    // 성공 응답에 Cache-Control 헤더 추가 (10분 동안 캐시)
+    res.setHeader(
+      "Cache-Control",
+      "public, max-age=600, stale-while-revalidate=59"
+    );
+
     return res.status(200).json({
       calendarEvents: calendarEvents.map((x) => ({
         ...x,
