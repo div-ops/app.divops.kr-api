@@ -65,7 +65,7 @@ export const CalendarService = {
     data.sort((a, b) => {
       if (a.startDate === b.startDate) {
         return (
-          new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
+          Number(a.startTime.slice(0, 2)) - Number(b.startTime.slice(0, 2))
         );
       }
 
