@@ -11,9 +11,15 @@ export default async function handler(
       "6b1ffeca3118faa51147f8a19a5c7766"
     );
     const { totalCount, applicants } = JSON.parse(items[0].body.contents);
-    const completedCount = applicants.filter((x: any) => x.status === "done");
-    const inProgressCount = applicants.filter((x: any) => x.status === "ing");
-    const waitingCount = applicants.filter((x: any) => x.status === "wait");
+    const completedCount = applicants.filter(
+      (x: any) => x.status === "done"
+    ).length;
+    const inProgressCount = applicants.filter(
+      (x: any) => x.status === "ing"
+    ).length;
+    const waitingCount = applicants.filter(
+      (x: any) => x.status === "wait"
+    ).length;
 
     if (!applicants.find((applicant: any) => applicant.githubId === githubId)) {
       return res.status(404).json({
