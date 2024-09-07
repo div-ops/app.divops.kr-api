@@ -1,6 +1,7 @@
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import remarkGfm from "remark-gfm";
 import unified, { ProcessorSettings, Settings } from "unified";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -18,6 +19,7 @@ export default async function handler(
     const file = await unified()
       .use(remarkParse as ProcessorSettings<Settings>)
       .use(remarkRehype)
+      .use(remarkGfm)
       .use(rehypeStringify)
       .use(remarkNewlinesToBrs)
       .process(markdown);
