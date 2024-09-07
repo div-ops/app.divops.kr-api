@@ -20,7 +20,14 @@ export default async function handler(
 
     const file = await unified()
       .use(remarkParse as ProcessorSettings<Settings>)
-      .use(remarkRehype)
+      .use(remarkRehype, {
+        handlers: (node: any) => {
+          console.log(node);
+          if (node.tagName === "img") {
+            node.properties.loading = "lazy";
+          }
+        },
+      })
       .use(remarkGfm)
       .use(rehypeStringify)
       .use(remarkNewlinesToBrs)
@@ -71,8 +78,10 @@ const remarkNewlinesToBrs = () => (tree: any) => {
           // Add text node for the non-empty part
           newNodes.push(u("text", part));
         }
-
-        newNodes.push(u("element", { tagName: "br" }, []));
+        if (i !== parts.length - 1) {
+          // Add a `br` element node for each newline, except after the last part
+          newNodes.push(u("element", { tagName: "br" }, []));
+        }
       });
       // Replace the current text node with the new nodes
       parent.children.splice(index, 1, ...newNodes);
