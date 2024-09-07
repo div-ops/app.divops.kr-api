@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import unified, { ProcessorSettings, Settings } from "unified";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// case1 curl -XPOST "http://localhost:3000/api/markdown/render" -d '{ "markdown": "#test\n##test\n\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-1.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-2.jpg) |\n| --- | --- |\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-3.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2.jpg) |\n" }' -H "Content-Type: application/json" | jq
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -38,6 +39,27 @@ const u = require("unist-builder");
 
 const remarkNewlinesToBrs = () => (tree: any) => {
   visit(tree, "text", (node: any, index: any, parent: any) => {
+    const isTable = ["table", "thead", "tbody", "tr", "td"].includes(
+      parent.tagName
+    );
+
+    if (isTable) {
+      if (node.value.includes("\n")) {
+        // Split the text at newlines
+        const parts = node.value.split("\n");
+        const newNodes: any = [];
+        parts.forEach((part: any, i: any) => {
+          if (part !== "" || i !== parts.length - 1) {
+            // Add text node for the non-empty part
+            newNodes.push(u("text", part));
+          }
+        });
+        // Replace the current text node with the new nodes
+        parent.children.splice(index, 1, ...newNodes);
+      }
+      return;
+    }
+
     if (node.value.includes("\n")) {
       // Split the text at newlines
       const parts = node.value.split("\n");
