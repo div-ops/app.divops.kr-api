@@ -19,10 +19,18 @@ export default async function handler(
 
     const file = await unified()
       .use(remarkParse as ProcessorSettings<Settings>)
-      .use(remarkRehype)
+      .use(remarkRehype, {
+        handlers: (node: any) => {
+          console.log(node);
+          if (node.tagName === "img") {
+            node.properties.loading = "lazy";
+          }
+        },
+      })
       .use(remarkGfm)
       .use(rehypeStringify)
       .use(remarkNewlinesToBrs)
+      .use(remarkImageAltToWidth)
       .process(markdown);
 
     return res.status(200).json({
@@ -76,6 +84,21 @@ const remarkNewlinesToBrs = () => (tree: any) => {
       });
       // Replace the current text node with the new nodes
       parent.children.splice(index, 1, ...newNodes);
+    }
+  });
+};
+
+const remarkImageAltToWidth = () => (tree: any) => {
+  visit(tree, "element", (node: any, index: any, parent: any) => {
+    console.log(node);
+    if (node.tagName === "img") {
+      const alt = node.properties.alt as string;
+      // if alt is "width=100px this image is XXX"
+      if (alt && alt.startsWith("width=")) {
+        const width = alt.split(" ")[0].split("=")[1];
+        node.properties.width = width;
+        node.properties.alt = alt.split(" ").slice(1).join(" ");
+      }
     }
   });
 };
