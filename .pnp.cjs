@@ -64,7 +64,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["remark-parse", "npm:9.0.0"],\
             ["remark-rehype", "npm:8.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
-            ["unified", "npm:9.2.2"]\
+            ["unified", "npm:9.2.2"],\
+            ["unist-builder", "npm:2.0.3"],\
+            ["unist-util-visit", "npm:2.0.3"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -341,7 +343,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["remark-parse", "npm:9.0.0"],\
             ["remark-rehype", "npm:8.1.0"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
-            ["unified", "npm:9.2.2"]\
+            ["unified", "npm:9.2.2"],\
+            ["unist-builder", "npm:2.0.3"],\
+            ["unist-util-visit", "npm:2.0.3"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -1710,7 +1714,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["browserslist", "npm:4.23.3"],\
             ["caniuse-lite", "npm:1.0.30001658"],\
-            ["electron-to-chromium", "npm:1.5.17"],\
+            ["electron-to-chromium", "npm:1.5.18"],\
             ["node-releases", "npm:2.0.18"],\
             ["update-browserslist-db", "virtual:4e727c7b5b033f8d5ac7299f9860cb61f5802656f7b4fea2accd32d68dc1a767387a6d23f0724065d3c65e61cb31b9eec2438ae937ce36e7602b4586ede55af6#npm:1.1.0"]\
           ],\
@@ -2165,10 +2169,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["electron-to-chromium", [\
-        ["npm:1.5.17", {\
-          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.5.17-6b31e000ae-8a9856ae41.zip/node_modules/electron-to-chromium/",\
+        ["npm:1.5.18", {\
+          "packageLocation": "./.yarn/cache/electron-to-chromium-npm-1.5.18-367bbd5e5d-ee4ca16604.zip/node_modules/electron-to-chromium/",\
           "packageDependencies": [\
-            ["electron-to-chromium", "npm:1.5.17"]\
+            ["electron-to-chromium", "npm:1.5.18"]\
           ],\
           "linkType": "HARD"\
         }]\
