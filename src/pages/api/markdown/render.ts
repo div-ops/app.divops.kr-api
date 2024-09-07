@@ -93,11 +93,12 @@ const remarkImageAltToWidth = () => (tree: any) => {
     console.log(node);
     if (node.tagName === "img") {
       const alt = node.properties.alt as string;
-      // if alt is "width=100px this image is XXX"
       if (alt && alt.startsWith("width=")) {
         const width = alt.split(" ")[0].split("=")[1];
-        node.properties.width = width;
         node.properties.alt = alt.split(" ").slice(1).join(" ");
+        node.properties.style = `width: ${width};${
+          node.properties.style ? ` ${node.properties.style}` : ""
+        }`;
       }
     }
   });
