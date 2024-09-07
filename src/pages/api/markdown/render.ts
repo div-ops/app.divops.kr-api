@@ -5,7 +5,8 @@ import remarkGfm from "remark-gfm";
 import unified, { ProcessorSettings, Settings } from "unified";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-// case1 curl -XPOST "http://localhost:3000/api/markdown/render" -d '{ "markdown": "#test\n##test\n\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-1.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-2.jpg) |\n| --- | --- |\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-3.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2.jpg) |\n" }' -H "Content-Type: application/json" | jq
+// case 1 curl -XPOST "http://localhost:3000/api/markdown/render" -d '{ "markdown": "#test\n##test\n\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-1.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-2.jpg) |\n| --- | --- |\n| ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2-present-3.jpg) | ![](https://divopsor.github.io/blog-images/2024/05/18/the-best-welfare-is-colleagues-2.jpg) |\n" }' -H "Content-Type: application/json" | jq
+// case 2 curl -XPOST "http://localhost:3000/api/markdown/render" -d '{ "markdown": "test![width=100% test](https://asd.com)" }' -H "Content-Type: application/json" | jq
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,14 +20,7 @@ export default async function handler(
 
     const file = await unified()
       .use(remarkParse as ProcessorSettings<Settings>)
-      .use(remarkRehype, {
-        handlers: (node: any) => {
-          console.log(node);
-          if (node.tagName === "img") {
-            node.properties.loading = "lazy";
-          }
-        },
-      })
+      .use(remarkRehype)
       .use(remarkGfm)
       .use(rehypeStringify)
       .use(remarkNewlinesToBrs)
@@ -77,10 +71,8 @@ const remarkNewlinesToBrs = () => (tree: any) => {
           // Add text node for the non-empty part
           newNodes.push(u("text", part));
         }
-        if (i !== parts.length - 1) {
-          // Add a `br` element node for each newline, except after the last part
-          newNodes.push(u("element", { tagName: "br" }, []));
-        }
+
+        newNodes.push(u("element", { tagName: "br" }, []));
       });
       // Replace the current text node with the new nodes
       parent.children.splice(index, 1, ...newNodes);
@@ -90,7 +82,6 @@ const remarkNewlinesToBrs = () => (tree: any) => {
 
 const remarkImageAltToWidth = () => (tree: any) => {
   visit(tree, "element", (node: any, index: any, parent: any) => {
-    console.log(node);
     if (node.tagName === "img") {
       const alt = node.properties.alt as string;
       if (alt && alt.startsWith("width=")) {
