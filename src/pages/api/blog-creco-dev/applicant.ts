@@ -10,7 +10,9 @@ export default async function handler(
     const { items } = await GistService.getContent(
       "6b1ffeca3118faa51147f8a19a5c7766"
     );
-    const { totalCount, applicants } = JSON.parse(items[0].body.contents);
+    const { totalCount, applicants, status } = JSON.parse(
+      items[0].body.contents
+    );
     const completedCount = applicants.filter(
       (x: any) => x.status === "done"
     ).length;
@@ -38,6 +40,7 @@ export default async function handler(
       completedCount,
       inProgressCount,
       waitingCount,
+      status,
     });
   } catch (error: any) {
     console.error(error);
