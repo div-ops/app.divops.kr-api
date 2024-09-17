@@ -10,9 +10,7 @@ export default async function handler(
     const { items } = await GistService.getContent(
       "6b1ffeca3118faa51147f8a19a5c7766"
     );
-    const { totalCount, applicants, status } = JSON.parse(
-      items[0].body.contents
-    );
+    const { totalCount, applicants } = JSON.parse(items[0].body.contents);
     const completedCount = applicants.filter(
       (x: any) => x.status === "done"
     ).length;
@@ -23,7 +21,11 @@ export default async function handler(
       (x: any) => x.status === "wait"
     ).length;
 
-    if (!applicants.find((applicant: any) => applicant.githubId === githubId)) {
+    const applicant = applicants.find(
+      (applicant: any) => applicant.githubId === githubId
+    );
+
+    if (applicant == null) {
       return res.status(404).json({
         message: "Not Found",
         errorMessage: "해당하는 githubId의 지원자가 없습니다.",
@@ -40,7 +42,7 @@ export default async function handler(
       completedCount,
       inProgressCount,
       waitingCount,
-      status,
+      status: applicant.status,
     });
   } catch (error: any) {
     console.error(error);
