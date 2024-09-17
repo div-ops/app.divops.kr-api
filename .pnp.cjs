@@ -1093,10 +1093,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:18.3.6", {\
-          "packageLocation": "./.yarn/cache/@types-react-npm-18.3.6-d67dc556d4-66cf1ea408.zip/node_modules/@types/react/",\
+        ["npm:18.3.7", {\
+          "packageLocation": "./.yarn/cache/@types-react-npm-18.3.7-46973bbba5-027cf84d83.zip/node_modules/@types/react/",\
           "packageDependencies": [\
-            ["@types/react", "npm:18.3.6"],\
+            ["@types/react", "npm:18.3.7"],\
             ["@types/prop-types", "npm:15.7.13"],\
             ["csstype", "npm:3.1.3"]\
           ],\
@@ -1108,7 +1108,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-react-dom-npm-18.0.6-55949dcf84-db571047af.zip/node_modules/@types/react-dom/",\
           "packageDependencies": [\
             ["@types/react-dom", "npm:18.0.6"],\
-            ["@types/react", "npm:18.3.6"]\
+            ["@types/react", "npm:18.3.7"]\
           ],\
           "linkType": "HARD"\
         }]\
