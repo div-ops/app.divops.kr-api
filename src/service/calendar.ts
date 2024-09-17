@@ -27,7 +27,7 @@ export const CalendarService = {
       timeMin: from
         ? from.toISOString()
         : subDays(new Date(), 40).toISOString(),
-      timeMax: to ? to.toISOString() : addDays(new Date(), 40).toISOString(),
+      timeMax: to ? to.toISOString() : addDays(new Date(), 100).toISOString(),
       maxResults: pageSize,
       singleEvents: true,
     });
