@@ -1,16 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'OPTIONS') {
-    const origin = req.headers['origin'] as string;
-    console.log({ origin })
-    res.setHeader('Allow', 'OPTIONS, GET, POST');
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(204).end();
-    return;
-  }
+  const origin = req.headers['origin'] as string;
+  console.log({ origin })
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
+  res.setHeader('Access-Control-Allow-Origin', '*'); /* @dev First, read about security */
+  res.setHeader('Access-Control-Max-Age', 2592000); // 30 days
+  res.setHeader('Access-Control-Allow-Headers', 'content-type'); // Might be helpful
 
   const { id: _id, count } = req.query;
 
