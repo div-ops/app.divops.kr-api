@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'OPTIONS') {
-    if (req.headers.origin === 'https://blog.creco.dev' || req.headers.origin === 'http://localhost:3000') {
-      res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers['origin'] as string;
+    console.log({ origin })
+    if (origin === 'https://blog.creco.dev' || origin === 'http://localhost:3000') {
+      res.setHeader('Access-Control-Allow-Origin', origin);
     } else {
       res.status(403).end();
       return;
