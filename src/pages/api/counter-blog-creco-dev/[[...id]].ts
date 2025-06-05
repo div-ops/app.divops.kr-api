@@ -1,6 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') {
+    if (req.headers.origin === 'https://blog.creco.dev' || req.headers.origin === 'http://localhost:3000') {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    } else {
+      res.status(403).end();
+      return;
+    }
+
+    res.setHeader('Allow', 'OPTIONS, GET, POST');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).end();
+    return;
+  }
+
   const { id: _id, count } = req.query;
 
   if (_id == null) {
