@@ -2,9 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const origin = req.headers['origin'] as string;
-  console.log({ origin })
+
+  if (origin === 'http://localhost:3000' || origin == null || origin === 'https://blog.creco.dev') {
+    res.setHeader('Access-Control-Allow-Origin', '*'); /* @dev First, read about security */
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST');
-  res.setHeader('Access-Control-Allow-Origin', '*'); /* @dev First, read about security */
   res.setHeader('Access-Control-Max-Age', 2592000); // 30 days
   res.setHeader('Access-Control-Allow-Headers', 'content-type'); // Might be helpful
 
